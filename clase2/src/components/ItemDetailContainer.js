@@ -2,16 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import searchImages from '../Api';
-
-const items = [
-  { id: 1, name: 'Cortado', description: 'Esto es un Cortado, nivel de cafe medio', category: 'hot', price: 85, },
-  { id: 2, name: 'Espresso', description: 'Esto es un Espresso, nivel de cafe alto', category: 'hot', price:80, },
-  { id: 3, name: 'Latte', description: 'Esto es un Latte, nivel de cafe bajo', category: 'hot',  price:85, },
-  { id: 4, name: 'Cappuccino', description: 'Esto es un Cappuccino, nivel de cafe medio', category: 'hot', price:90, },
-  { id: 5, name: 'Iced Americano', description: 'Esto es un Iced Americano, nivel de cafe alto', category: 'cold', price: 90, },
-  { id: 6, name: 'Iced Vanilla Latte', description: 'Esto es un Iced Vanilla Latte, nivel de cafe bajo', category: 'cold', price: 100, },
-  { id: 7, name: 'Oreo Frappe', description: 'Esto es un Frappuchino de oreo, nivel de cafe medio', category: 'cold', price: 120, },
-];
+import { db } from './config/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 function ItemDetailContainer() {
   const { itemId } = useParams();
@@ -20,23 +12,41 @@ function ItemDetailContainer() {
   const { addItem, removeItem, isInCart } = useContext(CartContext);
 
   useEffect(() => {
-    const parsedId = parseInt(itemId, 10);
-    const foundItem = items.find(item => item.id === parsedId);
-    setItem(foundItem);
+    const fetchItem = async () => {
+      const docRef = doc(db, "Items", itemId);
+      try {
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const itemData = docSnap.data();
+          setItem({ ...itemData, id: itemId });
 
-    if (foundItem) {
-      searchImages(foundItem.name).then(images => {
-        if (images.length > 0) {
-          setImage(images[0].urls.small);
+          searchImages(itemData.name).then(images => {
+            if (images.length > 0) {
+              setImage(images[0].urls.small);
+            }
+          }).catch(error => {
+            console.error('Error fetching images:', error);
+          });
+        } else {
+          setItem(undefined);
         }
-      }).catch(error => {
-        console.error('Error fetching images:', error);
-      });
+      } catch (error) {
+        console.error('Error fetching item from Firebase:', error);
+        setItem(undefined);
+      }
+    };
+
+    if (itemId) {
+      fetchItem();
     }
   }, [itemId]);
 
-  if (!item) {
+  if (item === undefined) {
     return <p>404 Item not found.</p>;
+  }
+
+  if (item === null) {
+    return <p>Loading item...</p>;
   }
 
   return (
@@ -46,9 +56,9 @@ function ItemDetailContainer() {
       <p>{item.description}</p>
       <p>${item.price}</p>
       <div>
-      <button className="button is-add-to-cart" onClick={() => addItem(item, 1)}>Add to Cart</button>
+        <button className="button is-add-to-cart" onClick={() => addItem(item, 1)}>Add to Cart</button>
         {isInCart(item.id) && (
-            <button className="button is-remove-from-cart" onClick={() => removeItem(item.id)}>Remove from Cart</button>
+          <button className="button is-remove-from-cart" onClick={() => removeItem(item.id)}>Remove from Cart</button>
         )}
       </div>
     </div>
