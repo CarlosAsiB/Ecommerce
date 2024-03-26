@@ -7,6 +7,9 @@ import './styles.css';
 import { CartProvider } from './context/CartContext';
 import { db } from './components/config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import Checkout from './components/Checkout';
+import OrderConfirmation from './components/OrderConfimation';
+
 
 const itemsCollectionRef = collection(db, "Items");
 
@@ -46,6 +49,8 @@ function App() {
             <Route path="/category/:categoria" element={<ItemListContainer items={items} />} />
             <Route path="/item/:itemId" element={<ItemDetailContainer items={items} />} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

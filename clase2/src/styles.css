@@ -155,3 +155,156 @@ h1 {
   background-color: #ffd633;
   color: #8b4513;
 }
+.checkout-link {
+  background-color: #8b4513;
+  color: #ffffff;
+  padding: 10px 15px;
+  margin: 10px 5px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.checkout-link:hover {
+  background-color: #7a3812;
+}
+
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.quantity-btn {
+  background-color: #8b4513;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  margin: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.quantity-btn:hover {
+  background-color: #7a3812;
+}
+
+.quantity-btn.decrement-btn:disabled,
+.quantity-btn.increment-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 60px;
+  text-align: center;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #8b4513;
+}
+
+/* Styling for the checkout form */
+.checkout-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.checkout-form h1 {
+  color: #8b4513;
+  margin-bottom: 1rem;
+}
+
+.checkout-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #8b4513;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.checkout-form h2 {
+  margin: 1rem 0;
+  color: #006400;
+}
+
+.checkout-form button {
+  background-color: #8b4513;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkout-form button:hover {
+  background-color: #7a3812;
+}
+
+.order-confirmation {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-confirmation h1 {
+  color: #8b4513;
+}
+
+.order-confirmation p, .order-confirmation h2 {
+  color: #006400;
+}
+
+.order-confirmation ul {
+  list-style: none;
+  padding: 0;
+}
+
+.order-confirmation li {
+  background-color: #ffffff;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.item-detail {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.item-detail img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.item-detail h2 {
+  color: #8b4513;
+  margin-top: 1rem;
+}
+
+.item-detail p {
+  color: #626262;
+}
+
+.item-detail .button {
+  margin-top: 10px;
+}

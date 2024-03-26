@@ -9,6 +9,7 @@ function ItemDetailContainer() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
   const [image, setImage] = useState('');
+  const [quantity, setQuantity] = useState(1);  // Add a state for quantity
   const { addItem, removeItem, isInCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -41,6 +42,14 @@ function ItemDetailContainer() {
     }
   }, [itemId]);
 
+  const handleQuantityChange = (event) => {
+    setQuantity(Math.max(1, parseInt(event.target.value, 10)));
+  };
+
+  const handleAddToCart = () => {
+    addItem(item, quantity);
+  };
+
   if (item === undefined) {
     return <p>404 Item not found.</p>;
   }
@@ -50,18 +59,26 @@ function ItemDetailContainer() {
   }
 
   return (
+    <div className="item-detail">
+    {image && <img src={image} alt={item.name} />}
+    <h2>{item.name}</h2>
+    <p>{item.description}</p>
+    <p>${item.price}</p>
     <div>
-      {image && <img src={image} alt={item.name} />}
-      <h2>{item.name}</h2>
-      <p>{item.description}</p>
-      <p>${item.price}</p>
-      <div>
-        <button className="button is-add-to-cart" onClick={() => addItem(item, 1)}>Add to Cart</button>
+        <input 
+          type="number" 
+          value={quantity} 
+          onChange={handleQuantityChange} 
+          min="1"
+          style={{ marginRight: '10px' }}
+        />
+        <button className="button is-add-to-cart" onClick={handleAddToCart}>Add to Cart</button>
         {isInCart(item.id) && (
           <button className="button is-remove-from-cart" onClick={() => removeItem(item.id)}>Remove from Cart</button>
         )}
-      </div>
     </div>
+</div>
+
   );
 }
 
